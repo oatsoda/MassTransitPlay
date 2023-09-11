@@ -1,10 +1,32 @@
+using MassTransit;
+using MassTransitPlay.Api;
+using MassTransitPlay.Api.Events;
 using MassTransitPlay.Data;
 using MassTransitPlay.Data.Models;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// builder.Services.AddMassTransit();
+builder.Services.AddMassTransit(x =>
+{
+    //x.AddEntityFrameworkOutbox<IssueTrackerDbContext>(o =>
+    //{
+    //    o.QueryDelay = TimeSpan.FromSeconds(1);
+
+    //    o.UseSqlServer();
+    //    o.UseBusOutbox();
+    //});
+
+    x.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host("localhost", "/", h => {
+            h.Username("guest");
+            h.Password("guest");
+        }); 
+
+        //cfg.ConfigureEndpoints(context);
+    });
+});
 
 // SQL
 var sqlConnectionString = builder.Configuration.GetConnectionString("IssueTrackerContext") ?? throw new NotImplementedException($"SQL Connection string not found. Environment: '{builder.Environment.EnvironmentName}'");
@@ -37,6 +59,15 @@ app.UseHttpsRedirection();
 
 // API
 
+app.MapGet("/issues", async (IssueTrackerDbContext dbContext) => {
+
+    var issues = await dbContext.Posts.ToListAsync();
+
+    return Results.Ok(issues.Select(issue => new { Id = issue.Id, Title = issue.Title, Description = issue.Description }).ToArray());        
+})
+.WithName("Get Issues")
+.WithOpenApi(); 
+
 app.MapGet("/issues/{id}", async (Guid id, IssueTrackerDbContext dbContext) => {
 
     var issue = await dbContext.Posts.FindAsync(id);
@@ -48,7 +79,7 @@ app.MapGet("/issues/{id}", async (Guid id, IssueTrackerDbContext dbContext) => {
 .WithName("Get Issue by Id")
 .WithOpenApi();
 
-app.MapPost("/issues", async (CreateIssue command, IssueTrackerDbContext dbContext) =>
+app.MapPost("/issues", async (CreateIssue command, IssueTrackerDbContext dbContext, IBus publish) =>
 {
     var issue = new Issue
     {
@@ -60,6 +91,7 @@ app.MapPost("/issues", async (CreateIssue command, IssueTrackerDbContext dbConte
     };
 
     dbContext.Posts.Add(issue);
+    await publish.Publish(new IssueCreated(issue.Id));
     await dbContext.SaveChangesAsync();
 
     return Results.Created($"/todoitems/{issue.Id}", null);
@@ -70,4 +102,6 @@ app.MapPost("/issues", async (CreateIssue command, IssueTrackerDbContext dbConte
 // ----------------------------------------------------------------------
 app.Run();
 
+
 public record CreateIssue(Guid OriginatorId, string Title, string Description);
+
