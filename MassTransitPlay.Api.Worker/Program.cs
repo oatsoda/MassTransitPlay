@@ -10,18 +10,16 @@ var builder = Host.CreateDefaultBuilder(args);
 
 builder.ConfigureServices((hostContext, services) => { 
 
-    // services.AddTransient<IssueCreatedConsumer>();
-
     services.AddMassTransit(x =>
     {
         x.AddConsumer<IssueCreatedConsumer>();
 
-        //x.AddEntityFrameworkOutbox<IssueTrackerDbContext>(o =>
-        //{
-        //    o.DuplicateDetectionWindow = TimeSpan.FromSeconds(30);
+        x.AddEntityFrameworkOutbox<IssueTrackerDbContext>(o =>
+        {
+            o.DuplicateDetectionWindow = TimeSpan.FromSeconds(30);
 
-        //    o.UseSqlServer();
-        //});
+            o.UseSqlServer();
+        });
 
         x.UsingRabbitMq((context, cfg) =>
         {

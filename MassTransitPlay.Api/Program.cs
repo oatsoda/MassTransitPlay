@@ -9,22 +9,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddMassTransit(x =>
 {
-    //x.AddEntityFrameworkOutbox<IssueTrackerDbContext>(o =>
-    //{
-    //    o.QueryDelay = TimeSpan.FromSeconds(1);
+    x.AddEntityFrameworkOutbox<IssueTrackerDbContext>(o =>
+    {
+        o.QueryDelay = TimeSpan.FromSeconds(1);
 
-    //    o.UseSqlServer();
-    //    o.UseBusOutbox();
-    //});
+        o.UseSqlServer();
+        o.UseBusOutbox();
+    });
 
     x.UsingRabbitMq((context, cfg) =>
     {
         cfg.Host("localhost", "/", h => {
             h.Username("guest");
             h.Password("guest");
-        }); 
-
-        //cfg.ConfigureEndpoints(context);
+        });
     });
 });
 
