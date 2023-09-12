@@ -12,7 +12,8 @@ builder.ConfigureServices((hostContext, services) => {
 
     services.AddMassTransit(x =>
     {
-        x.AddConsumer<IssueCreatedConsumer>();
+        x.AddConsumer<IssueCreatedSendEmailConsumer>();
+        x.AddConsumer<IssueCreatedSendNotificationConsumer>();
 
         x.AddEntityFrameworkOutbox<IssueTrackerDbContext>(o =>
         {
@@ -36,7 +37,4 @@ builder.ConfigureServices((hostContext, services) => {
     services.AddDbContext<IssueTrackerDbContext>(opt => opt.UseSqlServer(sqlConnectionString));
 });
 
-
 await builder.RunConsoleAsync();
-
-
