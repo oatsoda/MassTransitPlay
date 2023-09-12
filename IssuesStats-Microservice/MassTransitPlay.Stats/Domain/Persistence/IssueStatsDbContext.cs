@@ -1,8 +1,8 @@
 ﻿using MassTransit;
-using MassTransitPlay.Api.Domain.Models;
+using MassTransitPlay.Stats.Domain.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace MassTransitPlay.Api.Domain.Persistence
+namespace MassTransitPlay.Stats.Domain.Persistence
 {
     public class IssueStatsDbContext : DbContext
     {
@@ -11,7 +11,7 @@ namespace MassTransitPlay.Api.Domain.Persistence
         public IssueStatsDbContext(DbContextOptions<IssueStatsDbContext> options): base(options) { }
 
         // Add EF Migrations with:
-        //   dotnet ef migrations add <name> -o /Persistence/Migrations
+        //   dotnet ef migrations add <name> -o Domain/Persistence/Migrations
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

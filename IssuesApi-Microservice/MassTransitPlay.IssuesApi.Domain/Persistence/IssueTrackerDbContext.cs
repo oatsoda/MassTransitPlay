@@ -12,7 +12,7 @@ namespace MassTransitPlay.Api.Domain.Persistence
         public IssueTrackerDbContext(DbContextOptions<IssueTrackerDbContext> options): base(options) { }
 
         // Add EF Migrations with:
-        //   dotnet ef migrations add <name> --project MassTransitPlay.Api.Data --startup-project MassTransitPlay.Api
+        //   dotnet ef migrations add <name> --project MassTransitPlay.Api.Data --startup-project MassTransitPlay.Api -o Persistence/Migrations
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

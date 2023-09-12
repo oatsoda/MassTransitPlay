@@ -1,5 +1,6 @@
 ﻿using MassTransit;
-using MassTransitPlay.Api.Domain.Persistence;
+using MassTransitPlay.Stats.Domain.Persistence;
+using MassTransitPlay.Stats;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +13,7 @@ builder.ConfigureServices((hostContext, services) => {
 
     services.AddMassTransit(x =>
     {
-        // x.AddConsumer<IssueCreatedIntegrationEventConsumer>();
+        x.AddConsumer<IssueCreatedIntegrationEventConsumer>();
 
         x.AddEntityFrameworkOutbox<IssueStatsDbContext>(o =>
         {
@@ -45,4 +46,4 @@ using var scope = app.Services.CreateScope();
 // SQL Startup (Production: Move this to a pipeline task)
 scope.ServiceProvider.GetRequiredService<IssueStatsDbContext>().Database.Migrate();
 
-await builder.RunConsoleAsync();
+await app.RunAsync();

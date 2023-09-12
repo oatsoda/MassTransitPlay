@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MassTransitPlay.Api.Domain.Models;
+namespace MassTransitPlay.Stats.Domain.Models;
 
 public class IssueTotals
 {
