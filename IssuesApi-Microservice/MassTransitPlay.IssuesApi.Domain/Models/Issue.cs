@@ -9,8 +9,8 @@ public class Issue
 
     public Guid? AssigneeId { get; set; }
     public Guid? OriginatorId { get; set; }
-    public string Title { get; set; }
-    public string Description { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
     public bool IsOpen { get; set; }
 
     public DateTimeOffset Opened { get; set; }

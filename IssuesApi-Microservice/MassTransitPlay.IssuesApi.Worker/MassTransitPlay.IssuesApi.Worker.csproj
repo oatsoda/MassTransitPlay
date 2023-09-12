@@ -33,7 +33,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MassTransitPlay.Api.Data\MassTransitPlay.Api.Domain.csproj" />
+    <ProjectReference Include="..\MassTransitPlay.IssuesApi.Domain\MassTransitPlay.IssuesApi.Domain.csproj" />
   </ItemGroup>
 
 </Project>

@@ -23,7 +23,7 @@ builder.ConfigureServices((hostContext, services) => {
 
         x.UsingRabbitMq((context, cfg) =>
         {
-            cfg.Host("localhost", "/", h => {
+            cfg.Host(new Uri("rabbitmq://localhost"), "/", h => {
                 h.Username("guest");
                 h.Password("guest");
             });

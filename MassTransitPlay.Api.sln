@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33829.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{71C6AC02-59EB-45AA-AA37-3D08FE86FF9B}"
+	ProjectSection(SolutionItems) = preProject
+		..\.gitignore = ..\.gitignore
+		..\Readme.md = ..\Readme.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IssuesApi-Microservice", "IssuesApi-Microservice", "{AC29E98B-3D3B-44AF-B919-BA3CEB35DAD6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassTransitPlay.IssuesApi", "IssuesApi-Microservice\MassTransitPlay.IssuesApi\MassTransitPlay.IssuesApi.csproj", "{CA7F6883-F296-4CB8-AD97-5AB5DEB278F0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassTransitPlay.IssuesApi.Domain", "IssuesApi-Microservice\MassTransitPlay.IssuesApi.Domain\MassTransitPlay.IssuesApi.Domain.csproj", "{520AB6A7-5A0F-47B9-905E-B2E9EF062275}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassTransitPlay.IssuesApi.Worker", "IssuesApi-Microservice\MassTransitPlay.IssuesApi.Worker\MassTransitPlay.IssuesApi.Worker.csproj", "{AB341B70-EBF5-4624-9DD6-F4F203D8BCB3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IssuesStats-Microservice", "IssuesStats-Microservice", "{9D5073CF-C39B-4843-A7B5-1769B64D590B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MassTransitPlay.Stats", "IssuesStats-Microservice\MassTransitPlay.Stats\MassTransitPlay.Stats.csproj", "{E8DE8846-03C9-4EAA-886D-9543FC70FC4C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA7F6883-F296-4CB8-AD97-5AB5DEB278F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA7F6883-F296-4CB8-AD97-5AB5DEB278F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA7F6883-F296-4CB8-AD97-5AB5DEB278F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA7F6883-F296-4CB8-AD97-5AB5DEB278F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{520AB6A7-5A0F-47B9-905E-B2E9EF062275}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{520AB6A7-5A0F-47B9-905E-B2E9EF062275}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{520AB6A7-5A0F-47B9-905E-B2E9EF062275}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{520AB6A7-5A0F-47B9-905E-B2E9EF062275}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB341B70-EBF5-4624-9DD6-F4F203D8BCB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB341B70-EBF5-4624-9DD6-F4F203D8BCB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB341B70-EBF5-4624-9DD6-F4F203D8BCB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB341B70-EBF5-4624-9DD6-F4F203D8BCB3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8DE8846-03C9-4EAA-886D-9543FC70FC4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8DE8846-03C9-4EAA-886D-9543FC70FC4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8DE8846-03C9-4EAA-886D-9543FC70FC4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8DE8846-03C9-4EAA-886D-9543FC70FC4C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CA7F6883-F296-4CB8-AD97-5AB5DEB278F0} = {AC29E98B-3D3B-44AF-B919-BA3CEB35DAD6}
+		{520AB6A7-5A0F-47B9-905E-B2E9EF062275} = {AC29E98B-3D3B-44AF-B919-BA3CEB35DAD6}
+		{AB341B70-EBF5-4624-9DD6-F4F203D8BCB3} = {AC29E98B-3D3B-44AF-B919-BA3CEB35DAD6}
+		{E8DE8846-03C9-4EAA-886D-9543FC70FC4C} = {9D5073CF-C39B-4843-A7B5-1769B64D590B}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {55ADAFE1-D5F1-480D-B356-4865206AA2D7}
+	EndGlobalSection
+EndGlobal
