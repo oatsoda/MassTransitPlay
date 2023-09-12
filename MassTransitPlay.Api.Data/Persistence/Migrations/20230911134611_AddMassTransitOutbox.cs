@@ -1,9 +1,8 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MassTransitPlay.Data.Migrations
+namespace MassTransitPlay.Api.Domain.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class AddMassTransitOutbox : Migration

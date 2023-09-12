@@ -1,6 +1,6 @@
 ﻿using MassTransit;
-using MassTransitPlay.Api.Events;
-using MassTransitPlay.Data;
+using MassTransitPlay.Api.Worker;
+using MassTransitPlay.Api.Domain.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,11 +40,3 @@ builder.ConfigureServices((hostContext, services) => {
 await builder.RunConsoleAsync();
 
 
-public class IssueCreatedConsumer : IConsumer<IssueCreated>
-{
-    public Task Consume(ConsumeContext<IssueCreated> context)
-    {
-        Console.WriteLine($"CONSUMED! Issue: {context.Message.Id}");
-        return Task.CompletedTask;
-    }
-}

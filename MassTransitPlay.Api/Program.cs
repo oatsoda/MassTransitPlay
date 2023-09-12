@@ -1,8 +1,7 @@
 using MassTransit;
-using MassTransitPlay.Api;
-using MassTransitPlay.Api.Events;
-using MassTransitPlay.Data;
-using MassTransitPlay.Data.Models;
+using MassTransitPlay.Api.Domain.Models;
+using MassTransitPlay.Api.Domain.Models.Events;
+using MassTransitPlay.Api.Domain.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);

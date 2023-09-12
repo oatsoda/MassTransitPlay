@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MassTransitPlay.Api.Data\MassTransitPlay.Api.Data.csproj" />
+    <ProjectReference Include="..\MassTransitPlay.Api.Data\MassTransitPlay.Api.Domain.csproj" />
   </ItemGroup>
 
 </Project>

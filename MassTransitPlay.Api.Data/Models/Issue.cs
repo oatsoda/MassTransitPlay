@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace MassTransitPlay.Data.Models;
+namespace MassTransitPlay.Api.Domain.Models;
 
 public class Issue
 {

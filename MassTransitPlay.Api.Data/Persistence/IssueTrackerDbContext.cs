@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MassTransitPlay.Data.Models;
-using MassTransit;
+﻿using MassTransit;
+using MassTransitPlay.Api.Domain.Models;
+using Microsoft.EntityFrameworkCore;
 
-namespace MassTransitPlay.Data
+namespace MassTransitPlay.Api.Domain.Persistence
 {
     public class IssueTrackerDbContext : DbContext
     {
