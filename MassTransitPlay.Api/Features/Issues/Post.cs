@@ -7,7 +7,7 @@ namespace MassTransitPlay.Api.Features.Issues;
 
 public static class Post
 {
-    public static async Task<IResult> Execute(CreateIssueCommand command, IssueTrackerDbContext dbContext, IBus publish, LinkGenerator linker)
+    public static async Task<IResult> Execute(CreateIssueCommand command, IssueTrackerDbContext dbContext, IPublishEndpoint publish, LinkGenerator linker)
     {
         var issue = new Issue
         {
