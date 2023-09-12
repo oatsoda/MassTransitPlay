@@ -52,7 +52,10 @@ scope.ServiceProvider.GetRequiredService<IssueTrackerDbContext>().Database.Migra
 
 // API
 foreach (var endpointCollection in scope.ServiceProvider.GetServices<IEndpointCollection>())
+{
+    logger.LogDebug("Registering: {endpoints}", endpointCollection.GetType().Name);
     endpointCollection.RegisterEndpoints(app);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
