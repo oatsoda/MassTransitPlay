@@ -13,7 +13,7 @@ Including:
 	- Does this mean "true" Domain Events to update the Domain Model need to be done some other way?
   - If I have turned on Rabbit MQ, then all Published messages will be dispatched via RabbitMQ - but what if I want to dispatch an in-memory, in-process Domain Event?
 	- Do I need to use MultiBus and configure a local one? https://masstransit.io/documentation/configuration/multibus
-	- But ideally Publisher shouldn't need to know this
+	- But ideally Publisher shouldn't need to know this...
 
 ### Future?
 
