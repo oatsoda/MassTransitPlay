@@ -19,7 +19,8 @@ public static class Post
         };
 
         dbContext.Posts.Add(issue);
-        await publish.Publish(new IssueCreated(issue.Id));
+        await publish.Publish(new IssueCreated(issue.Id)); // Because MassTransit AddEntityFrameworkOutbox + UseBusOutbox is enabled, this will use the Outbox instead of immediate handling, and be committed Tx as part of the SaveChangesAsync
+
         await dbContext.SaveChangesAsync();
 
         return Results.Created($"/todoitems/{issue.Id}", null);  
