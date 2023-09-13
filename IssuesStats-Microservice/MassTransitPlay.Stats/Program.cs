@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Data.SqlClient;
 
 var builder = Host.CreateDefaultBuilder(args);
 
@@ -13,7 +14,8 @@ builder.ConfigureServices((hostContext, services) => {
 
     services.AddMassTransit(x =>
     {
-        x.AddConsumer<IssueCreatedIntegrationEventConsumer>();
+        x.AddConsumer<IssueCreatedIntegrationEventConsumer>()
+            .Endpoint(e => e.Name = nameof(IssueCreatedIntegrationEventConsumer));
 
         x.AddEntityFrameworkOutbox<IssueStatsDbContext>(o =>
         {
@@ -28,7 +30,21 @@ builder.ConfigureServices((hostContext, services) => {
                 h.Username("guest");
                 h.Password("guest");
             });
-            cfg.ConfigureEndpoints(context);
+            
+            cfg.ReceiveEndpoint(nameof(IssueCreatedIntegrationEventConsumer), e =>
+            {
+                e.UseMessageRetry(r =>
+                {
+                    // Handling the concurrency retry like this is less efficient than handling it inside the consumer, where the exception class has the latest version of the Entity, as we could avoid the re-query to get the latest Entity.
+                    r.Handle<DbUpdateConcurrencyException>();
+                    r.Handle<DbUpdateException>(ex => ex.GetBaseException() is SqlException sx && (sx.Number == 2601 || sx.Number == 2627));
+                    r.Immediate(10);
+                });            
+                
+                e.ConfigureConsumer<IssueCreatedIntegrationEventConsumer>(context);
+            });
+
+            // cfg.ConfigureEndpoints(context);
         });
     });
     

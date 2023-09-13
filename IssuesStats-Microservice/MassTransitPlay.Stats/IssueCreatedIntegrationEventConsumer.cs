@@ -19,37 +19,26 @@ namespace MassTransitPlay.Stats
         }
 
         public async Task Consume(ConsumeContext<IssueCreatedIntegrationEvent> context)
-        {
-            while (true) // TODO: Implement max retries
-            {                
-                var totals = await m_DbContext.Totals.FindAsync(Guid.Empty); // OOOOPS, The DB auto overrides the ID, so need to fix this.
+        { 
+            var totals = await m_DbContext.Totals.SingleOrDefaultAsync(t => t.Type == IssueTotals.OVERALL_TYPE);
 
-                if (totals == null)
+            if (totals == null)
+            {
+                m_Logger.LogInformation("Creating initial Totals");
+                totals = new IssueTotals() 
                 {
-                    m_Logger.LogInformation("Creating initial Totals");
-                    totals = new IssueTotals() 
-                    {
-                        TotalIssues = 1
-                    };
-                    m_DbContext.Totals.Add(totals);
-                }
-                else
-                {
-                    totals.TotalIssues++;
-                }
-
-
-                try
-                {
-                    await m_DbContext.SaveChangesAsync();
-                    return;
-                }
-                catch (DbUpdateConcurrencyException ex)
-                {
-                    // TODO: Rather than re-execute the Find, the exception has the latest versio on ex.Entries
-                    m_Logger.LogWarning(ex, "Concurrency failure; Retrying...");
-                }
+                    Type = IssueTotals.OVERALL_TYPE,
+                    TotalIssues = 1
+                };
+                m_DbContext.Totals.Add(totals);
             }
+            else
+            {
+                totals.TotalIssues++;
+                m_Logger.LogInformation("Increasing total issues to {num}", totals.TotalIssues);
+            }
+
+            await m_DbContext.SaveChangesAsync();     
         }
     }
 }

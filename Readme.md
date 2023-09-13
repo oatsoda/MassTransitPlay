@@ -20,3 +20,10 @@ Including:
 - Domain Events vs Integration - updating Domain before SaveAsync
 - Add another Microservice
 - Clarity over async processing within same Bounded Context vs separate Bounded Context / Microservice.
+
+
+### Running
+
+Either run RabbitMq locally, or start docker container: `docker run -p 15672:15672 -p 5672:5672 masstransit/rabbitmq` which has the GUI enabled on http://localhost:15672/ (guest, guest)
+
+

@@ -4,6 +4,7 @@ using MassTransitPlay.Stats.Domain.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MassTransitPlay.Stats.Domain.Persistence.Migrations
 {
     [DbContext(typeof(IssueStatsDbContext))]
-    partial class IssueStatsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230913112641_AddTypeToTotals")]
+    partial class AddTypeToTotals
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
