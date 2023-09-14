@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+var rabbitMqConnectionString = builder.Configuration.GetConnectionString("RabbitMq") ?? throw new NotImplementedException($"RabbitMQ string not found. Environment: '{builder.Environment.EnvironmentName}'");
 builder.Services.AddMassTransit(x =>
 {
     x.AddEntityFrameworkOutbox<IssueTrackerDbContext>(o =>
@@ -16,7 +18,7 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        cfg.Host(new Uri("rabbitmq://localhost"), "/", h => {
+        cfg.Host(new Uri(rabbitMqConnectionString), "/", h => {
             h.Username("guest");
             h.Password("guest");
         });
@@ -64,7 +66,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 // ----------------------------------------------------------------------
 app.Run();

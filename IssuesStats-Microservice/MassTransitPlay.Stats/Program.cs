@@ -12,6 +12,7 @@ var builder = Host.CreateDefaultBuilder(args);
 
 builder.ConfigureServices((hostContext, services) => { 
 
+    var rabbitMqConnectionString = hostContext.Configuration.GetConnectionString("RabbitMq") ?? throw new NotImplementedException($"RabbitMQ string not found. Environment: '{hostContext.HostingEnvironment.EnvironmentName}'");
     services.AddMassTransit(x =>
     {
         x.AddConsumer<IssueCreatedIntegrationEventConsumer>()
@@ -26,7 +27,7 @@ builder.ConfigureServices((hostContext, services) => {
 
         x.UsingRabbitMq((context, cfg) =>
         {
-            cfg.Host(new Uri("rabbitmq://localhost"), "/", h => {
+            cfg.Host(new Uri(rabbitMqConnectionString), "/", h => {
                 h.Username("guest");
                 h.Password("guest");
             });
