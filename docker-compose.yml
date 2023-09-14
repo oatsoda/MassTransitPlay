@@ -80,8 +80,7 @@ services:
       - masstransit-play
 
   rabbitmq:
-    # For some reason, the MT image, or even the rabbitmq:3-management don't work with compose :(
-    image: masstransit/rabbitmq # rabbitmq:3
+    image: masstransit/rabbitmq # rabbitmq:3 rabbitmq:3-management
     hostname: issuesrabbitmq
     ports:
       - "15672:15672"
