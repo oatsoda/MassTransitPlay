@@ -1,0 +1,96 @@
+# DOCKER_REGISTRY is an env var that allows pre-prending of registry, much like public images do.
+
+networks:
+  masstransit-play:
+    name: masstransit-play-net
+    external: true # Currently expected to exist already
+
+services:
+  masstransitplay.issuesapi:
+    image: ${DOCKER_REGISTRY-}masstransitplay_issuesapi
+    build:
+      context: .
+      dockerfile: IssuesApi-Microservice/MassTransitPlay.IssuesApi/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings:IssueTrackerContext=Server=issuesdockersql,1433;Database=IssueTrackerMassTransit;User Id=sa;Password=Docker-sql-pass;MultipleActiveResultSets=true;TrustServerCertificate=True
+      - ConnectionStrings:RabbitMq=amqp://issuesrabbitmq:5672
+    ports:
+      - "7246:443"
+      - "5160:80"
+    networks:
+      - masstransit-play
+    depends_on:
+      sql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  masstransitplay.issuesapi.worker:
+    image: ${DOCKER_REGISTRY-}masstransitplay_issuesapi_worker
+    build:
+      context: .
+      dockerfile: IssuesApi-Microservice/MassTransitPlay.IssuesApi.Worker/Dockerfile
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+      - ConnectionStrings:IssueTrackerContext=Server=issuesdockersql,1433;Database=IssueTrackerMassTransit;User Id=sa;Password=Docker-sql-pass;MultipleActiveResultSets=true;TrustServerCertificate=True
+      - ConnectionStrings:RabbitMq=amqp://issuesrabbitmq:5672
+    networks:
+      - masstransit-play
+    depends_on:
+      sql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: unless-stopped # Mitigate startup failure by reloading
+
+  masstransitplay.stats:
+    image: ${DOCKER_REGISTRY-}masstransitplay_issuesstats
+    build:
+      context: .
+      dockerfile: IssuesStats-Microservice/MassTransitPlay.Stats/Dockerfile
+    environment:
+      - DOTNET_ENVIRONMENT=Development
+      - ConnectionStrings:IssueStatsContext=Server=issuesdockersql,1433;Database=IssueStatsMassTransit;User Id=sa;Password=Docker-sql-pass;MultipleActiveResultSets=true;TrustServerCertificate=True
+      - ConnectionStrings:RabbitMq=amqp://issuesrabbitmq:5672
+    networks:
+      - masstransit-play
+    depends_on:
+      sql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: unless-stopped # Mitigate startup failure by reloading
+
+  sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    hostname: issuesdockersql
+    ports:
+      - "1433:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=Docker-sql-pass
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "Docker-sql-pass" -Q "SELECT 1" -b # -o /dev/null
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+    networks:
+      - masstransit-play
+
+  rabbitmq:
+    # For some reason, the MT image, or even the rabbitmq:3-management don't work with compose :(
+    image: masstransit/rabbitmq # rabbitmq:3
+    hostname: issuesrabbitmq
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    user: rabbitmq # Does this fix the issue with RabbitMq in Compose? (Error when reading /var/lib/rabbitmq/.erlang.cookie)
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 1s
+      timeout: 3s
+      retries: 30
+    networks:
+      - masstransit-play

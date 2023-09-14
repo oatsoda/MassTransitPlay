@@ -61,6 +61,7 @@ docker run -d --net masstransit-play-net --hostname issuesdockersql --name issue
 #### Start RabbitMQ
 
 ```[pwsh]
+docker run -d --net wolverine-play-net --hostname dockerrabbitmq --name rabbitmq rabbitmq:3
 docker run -d --net masstransit-play-net --hostname issuesrabbitmq --name issuesrabbitmq -p 15672:15672 -p 5672:5672 masstransit/rabbitmq
 ```
 
