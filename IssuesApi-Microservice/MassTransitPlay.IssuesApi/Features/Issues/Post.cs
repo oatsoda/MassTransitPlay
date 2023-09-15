@@ -1,4 +1,5 @@
-﻿using MassTransit;
+﻿using FluentValidation;
+using MassTransit;
 using MassTransitPlay.Api.Domain.Models;
 using MassTransitPlay.Api.Domain.Models.Events;
 using MassTransitPlay.Api.Domain.Persistence;
@@ -6,11 +7,21 @@ using MassTransitPlay.SharedContracts;
 
 namespace MassTransitPlay.Api.Features.Issues;
 
-public static class Post
+public static partial class Post
 {
-    public record CreateIssueCommand(Guid OriginatorId, string Title, string Description);
+    public record PostCommand(Guid OriginatorId, string Title, string Description);
 
-    public static async Task<IResult> Execute(CreateIssueCommand command, IssueTrackerDbContext dbContext, IPublishEndpoint publish, LinkGenerator linker)
+    public class PostCommandValidator: AbstractValidator<PostCommand>
+    {
+        public PostCommandValidator()
+        {
+            RuleFor(m => m.OriginatorId).NotEmpty();
+            RuleFor(m => m.Title).NotEmpty().MaximumLength(20);
+            RuleFor(m => m.Description).NotEmpty().MaximumLength(50);
+        }
+    }
+
+    public static async Task<IResult> Execute(PostCommand command, IssueTrackerDbContext dbContext, IPublishEndpoint publish, LinkGenerator linker, PostCommandValidator validator)
     {
         var issue = new Issue
         {

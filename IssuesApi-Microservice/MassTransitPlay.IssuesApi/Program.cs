@@ -1,6 +1,9 @@
 using MassTransit;
 using MassTransitPlay.Api.Domain.Persistence;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using System.Reflection;
+using MassTransitPlay.Api;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +35,9 @@ builder.Services.AddDbContext<IssueTrackerDbContext>(opt => opt.UseSqlServer(sql
 // OPEN API / SWAGGER
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// VALIDATORS
+builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 
 // API Endpoints
 builder.Services.Scan(scan => 
@@ -70,10 +76,3 @@ if (app.Environment.IsDevelopment())
 
 // ----------------------------------------------------------------------
 app.Run();
-
-
-public interface IEndpointCollection
-{
-    void RegisterEndpoints(IEndpointRouteBuilder app);
-}
-
