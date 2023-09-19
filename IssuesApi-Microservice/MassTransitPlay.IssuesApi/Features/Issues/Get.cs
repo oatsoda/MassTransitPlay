@@ -8,8 +8,8 @@ public static class Get
     {
         var issue = await dbContext.Posts.FindAsync(id);
         if (issue == null)
-            return Results.NotFound();
+            return TypedResults.NotFound();
 
-        return Results.Ok(new { Id = issue.Id, Title = issue.Title, Description = issue.Description });   
+        return TypedResults.Ok(new { Id = issue.Id, Title = issue.Title, Description = issue.Description });   
     }
 }
