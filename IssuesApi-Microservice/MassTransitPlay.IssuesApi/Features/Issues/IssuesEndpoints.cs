@@ -6,21 +6,23 @@ namespace MassTransitPlay.Api.Features.Issues;
 public class IssuesEndpoints : IEndpointCollection
 {
     public void RegisterEndpoints(IEndpointRouteBuilder app)
-    {            
-        app.MapGet("/issues", GetList.Execute)
-            .WithName("ListIssues")
-            .WithTags("Issues")
-            .WithOpenApi(); 
+    {
+        var group = app.MapGroup("/issues");
 
-        app.MapGet("/issues/{id}", Get.Execute)
-            .WithName("GetIssue")
-            .WithTags("Issues")
-            .WithOpenApi();
+        group.MapGet("", GetList.Execute)
+             .WithName("ListIssues")
+             .WithTags("Issues")
+             .WithOpenApi(); 
 
-        app.MapPost("/issues", Post.Execute)
-            .AddEndpointFilter<ValidationFilter<PostCommand>>()
-            .WithName("CreateIssue")
-            .WithTags("Issues")
-            .WithOpenApi();
+        group.MapGet("/{id}", Get.Execute)
+             .WithName("GetIssue")
+             .WithTags("Issues")
+             .WithOpenApi();
+
+        group.MapPost("", Post.Execute)
+             .AddEndpointFilter<ValidationFilter<PostCommand>>()
+             .WithName("CreateIssue")
+             .WithTags("Issues")
+             .WithOpenApi();
     }
 }
