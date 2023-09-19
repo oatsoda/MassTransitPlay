@@ -1,5 +1,4 @@
 ﻿using static MassTransitPlay.Api.Features.Issues.Post;
-using static MassTransitPlay.Api.Post;
 
 namespace MassTransitPlay.Api.Features.Issues;
 
